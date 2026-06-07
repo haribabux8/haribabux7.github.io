@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Portfolio of Hari Babu, Data Analyst and Frontend Developer">
+  <meta name="keywords" content="Data Analyst, Frontend Developer, HTML, CSS, JavaScript, Web Development, haribabu, HARI BABU">
+  <title>BABU — PROJECT 1</title>
+  <link rel="icon" type="image/svg+xml" href="../../../logo.svg">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=Iceberg&display=swap" rel="stylesheet">
+<style>
+:root {
+  --c-bg: #02040a;
+  --c-surface: #060b16;
+  --c-surface2: #0b1221;
+  --c-surface3: #111827;
+  --c-border: rgba(255,255,255,0.06);
+  --c-border2: rgba(255,255,255,0.11);
+  --c-text: #ede9e0;
+  --c-text2: rgba(237,233,224,0.78);
+  --c-muted: rgba(237,233,224,0.45);
+  --c-accent: #c8924a;
+  --c-accent2: #e8b87a;
+  --c-accent3: #f5d4a0;
+  --c-glow: rgba(200,146,74,0.12);
+  --c-glow2: rgba(200,146,74,0.25);
+  --font-display: 'Cormorant Garamond', serif;
+  --font-body: 'DM Sans', sans-serif;
+  --font-code: 'Iceberg', monospace;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --r-sm: 8px;
+  --r-md: 14px;
+  --r-lg: 20px;
+  --r-xl: 28px;
+  --shadow-md: 0 8px 32px rgba(0,0,0,0.4);
+  --shadow-lg: 0 24px 64px rgba(0,0,0,0.5);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+body {
+  background: var(--c-bg);
+  color: var(--c-text);
+  font-family: var(--font-body);
+  font-weight: 300;
+  min-height: 100vh;
+  line-height: 1.7;
+  cursor: none;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+body.loaded { overflow-y: auto; }
+
+/* ── CURSOR */
+#cursor {
+  width: 6px; height: 6px;
+  background: var(--c-accent2);
+  border-radius: 50%;
+  position: fixed; top: 0; left: 0;
+  pointer-events: none; z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: width 0.25s, height 0.25s, background 0.2s;
+  mix-blend-mode: difference;
+}
+#cursor-ring {
+  width: 32px; height: 32px;
+  border: 1px solid rgba(200,146,74,0.45);
+  border-radius: 50%;
+  position: fixed; top: 0; left: 0;
+  pointer-events: none; z-index: 9998;
+  transform: translate(-50%, -50%);
+  transition: width 0.35s var(--ease-out), height 0.35s var(--ease-out), border-color 0.3s;
+}
+.cursor--hover #cursor { width: 12px; height: 12px; background: var(--c-accent3); }
+.cursor--hover #cursor-ring { width: 52px; height: 52px; border-color: rgba(200,146,74,0.7); }
+@media (hover: none) { #cursor, #cursor-ring { display: none; } body { cursor: auto; } }
+
+/* ── NOISE */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  opacity: 0.02;
+  pointer-events: none; z-index: 1;
+}
+
+/* ── PRELOADER */
+#preloader {
+  position: fixed; inset: 0;
+  background: #000; z-index: 10000;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 36px;
+}
+#preloader::before {
+  content: '';
+  position: absolute;
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(200,146,74,0.06), transparent 70%);
+  border-radius: 50%;
+  animation: glowPulse 2s ease-in-out infinite;
+}
+@keyframes glowPulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.2)} }
+.pl-name {
+  font-family: var(--font-display);
+  font-size: 11px; letter-spacing: 0.55em;
+  color: var(--c-muted); text-transform: uppercase;
+  animation: plFade 1.8s ease-in-out infinite; position: relative;
+}
+@keyframes plFade { 0%,100%{opacity:0.2} 50%{opacity:0.8} }
+.pl-track { width: 180px; height: 1px; background: rgba(255,255,255,0.06); overflow: hidden; border-radius: 1px; }
+.pl-fill {
+  height: 100%;
+  background: linear-gradient(90deg, transparent, var(--c-accent), var(--c-accent2), transparent);
+  width: 50%; animation: plScan 1.4s ease-in-out infinite;
+}
+@keyframes plScan { 0%{transform:translateX(-120%)} 100%{transform:translateX(350%)} }
+.pl-exit { animation: plOut 0.85s var(--ease-out) forwards; }
+@keyframes plOut { to { opacity: 0; transform: scale(1.03); pointer-events: none; } }
+
+/* ── AMBIENT */
+.ambient { position: fixed; border-radius: 50%; filter: blur(100px); pointer-events: none; z-index: 0; }
+.ambient-1 { width: 600px; height: 600px; background: radial-gradient(circle, rgba(200,146,74,0.06), transparent 70%); top: -100px; right: -100px; animation: floatA 10s ease-in-out infinite; }
+.ambient-2 { width: 500px; height: 500px; background: radial-gradient(circle, rgba(72,100,200,0.04), transparent 70%); bottom: -100px; left: -100px; animation: floatA 13s ease-in-out infinite reverse; }
+@keyframes floatA { 0%,100%{transform:translate(0,0)} 50%{transform:translate(20px,-20px)} }
+
+/* ── PARTICLES */
+#particles-js { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+
+/* ── SCROLL BTN */
+.scroll-up-btn {
+  position: fixed; bottom: 36px; right: 28px;
+  width: 46px; height: 46px;
+  background: rgba(200,146,74,0.08);
+  border: 1px solid rgba(200,146,74,0.28);
+  color: var(--c-accent2); border-radius: 50%;
+  font-size: 15px; display: none; cursor: pointer;
+  backdrop-filter: blur(12px); z-index: 500;
+  transition: all 0.35s var(--ease-out);
+  align-items: center; justify-content: center;
+}
+.scroll-up-btn:hover { background: rgba(200,146,74,0.18); transform: translateY(-4px); box-shadow: 0 0 30px var(--c-glow); }
+
+/* ── PAGE WRAPPER */
+.page-wrap {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 120px 40px 100px;
+  position: relative;
+  z-index: 2;
+}
+
+/* ── BACK BUTTON */
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--c-muted);
+  text-decoration: none;
+  border: 1px solid var(--c-border2);
+  border-radius: 100px;
+  padding: 9px 20px;
+  backdrop-filter: blur(10px);
+  background: rgba(255,255,255,0.02);
+  transition: all 0.35s var(--ease-out);
+  font-family: var(--font-body);
+  cursor: pointer;
+  margin-bottom: 56px;
+}
+.back-btn:hover {
+  color: var(--c-accent2);
+  border-color: rgba(200,146,74,0.4);
+  background: rgba(200,146,74,0.06);
+  transform: translateX(-3px);
+}
+.back-btn i { font-size: 10px; transition: transform 0.3s; }
+.back-btn:hover i { transform: translateX(-3px); }
+
+/* ── HEADER AREA */
+.project-header {
+  margin-bottom: 56px;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: revealUp 0.9s 0.3s var(--ease-out) forwards;
+}
+.project-year-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 10px;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--c-accent);
+  margin-bottom: 20px;
+  font-family: var(--font-body);
+}
+.project-year-tag::before {
+  content: '';
+  width: 28px; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--c-accent));
+}
+.project-year-badge {
+  display: inline-block;
+  padding: 4px 14px;
+  background: rgba(200,146,74,0.1);
+  border: 1px solid rgba(200,146,74,0.25);
+  border-radius: 100px;
+  font-family: var(--font-display);
+  font-size: 15px;
+  color: var(--c-accent2);
+  letter-spacing: 0.05em;
+  margin-bottom: 24px;
+  font-style: italic;
+}
+
+.project-title {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 4.5vw, 52px);
+  font-weight: 300;
+  line-height: 1.15;
+  color: var(--c-text);
+  font-style: italic;
+  letter-spacing: -0.01em;
+  margin-bottom: 16px;
+}
+.title-accent {
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(200,146,74,0.5);
+}
+
+/* ── DIVIDER */
+.section-divider {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 40px 0;
+}
+.section-divider::before, .section-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--c-border);
+}
+.section-divider span {
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: var(--c-accent);
+  box-shadow: 0 0 8px var(--c-accent);
+}
+
+/* ── CONTENT BLOCKS */
+.content-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  opacity: 0;
+  transform: translateY(18px);
+  animation: revealUp 0.9s 0.5s var(--ease-out) forwards;
+}
+
+.section-block {
+  padding: 36px 0;
+  border-bottom: 1px solid var(--c-border);
+}
+.section-block:last-child { border-bottom: none; }
+
+.section-label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 9.5px;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--c-accent);
+  margin-bottom: 18px;
+  font-family: var(--font-body);
+}
+.section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(200,146,74,0.2), transparent);
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 400;
+  color: var(--c-text);
+  margin-bottom: 14px;
+  font-style: italic;
+  letter-spacing: 0.01em;
+}
+
+.section-text {
+  font-size: 15px;
+  line-height: 1.85;
+  color: rgba(237,233,224,0.62);
+  font-weight: 300;
+  font-family: var(--font-body);
+}
+
+/* ── LIST STYLES */
+.content-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 4px;
+}
+.content-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  font-size: 14.5px;
+  color: rgba(237,233,224,0.62);
+  line-height: 1.7;
+  padding: 10px 16px;
+  background: rgba(255,255,255,0.015);
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-sm);
+  transition: all 0.3s var(--ease-out);
+}
+.content-list li:hover {
+  background: rgba(200,146,74,0.04);
+  border-color: rgba(200,146,74,0.18);
+  transform: translateX(4px);
+}
+.content-list li::before {
+  content: '';
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--c-accent);
+  flex-shrink: 0;
+  margin-top: 7px;
+  box-shadow: 0 0 6px var(--c-accent);
+}
+
+/* ── TECH TAGS */
+.tech-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 8px;
+}
+.tech-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 18px;
+  background: rgba(200,146,74,0.06);
+  border: 1px solid rgba(200,146,74,0.2);
+  border-radius: var(--r-sm);
+  font-size: 12px;
+  color: var(--c-accent2);
+  letter-spacing: 0.05em;
+  font-family: var(--font-body);
+  font-weight: 400;
+  transition: all 0.3s var(--ease-out);
+}
+.tech-tag:hover {
+  background: rgba(200,146,74,0.12);
+  border-color: rgba(200,146,74,0.4);
+  transform: translateY(-2px);
+}
+.tech-tag i { font-size: 11px; opacity: 0.7; }
+
+/* ── CODE BLOCK */
+.code-block {
+  background: rgba(6,11,22,0.9);
+  border: 1px solid var(--c-border2);
+  border-radius: var(--r-md);
+  padding: 24px 28px;
+  margin-top: 16px;
+  position: relative;
+  overflow: hidden;
+}
+.code-block::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(200,146,74,0.3), transparent);
+}
+.code-block pre {
+  font-family: var(--font-code);
+  font-size: 13px;
+  line-height: 1.7;
+  color: rgba(237,233,224,0.55);
+  white-space: pre;
+  overflow-x: auto;
+}
+.code-label {
+  font-size: 9px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--c-accent);
+  margin-bottom: 14px;
+  font-family: var(--font-body);
+  opacity: 0.8;
+}
+
+/* ── STATS ROW */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 8px;
+}
+.stat-card {
+  background: rgba(6,11,22,0.8);
+  border: 1px solid var(--c-border2);
+  border-radius: var(--r-md);
+  padding: 22px 20px;
+  text-align: center;
+  backdrop-filter: blur(12px);
+  transition: all 0.35s var(--ease-out);
+  position: relative;
+  overflow: hidden;
+}
+.stat-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 0%, rgba(200,146,74,0.06), transparent 70%);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.stat-card:hover {
+  border-color: rgba(200,146,74,0.3);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 36px rgba(0,0,0,0.3), 0 0 30px rgba(200,146,74,0.06);
+}
+.stat-card:hover::before { opacity: 1; }
+.stat-num {
+  font-family: var(--font-display);
+  font-size: 36px;
+  font-weight: 300;
+  color: var(--c-accent2);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  font-style: italic;
+}
+.stat-desc {
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--c-muted);
+  margin-top: 6px;
+  font-family: var(--font-body);
+}
+
+/* ── SOCIAL ICONS */
+.socialIcons {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 48px;
+}
+.socialIcons a {
+  width: 46px; height: 46px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 50%;
+  border: 1px solid var(--c-border2);
+  color: var(--c-muted);
+  text-decoration: none;
+  font-size: 15px;
+  backdrop-filter: blur(8px);
+  background: rgba(255,255,255,0.02);
+  transition: all 0.4s var(--ease-out);
+  position: relative; overflow: hidden;
+}
+.socialIcons a::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(circle at center, rgba(200,146,74,0.22), transparent 65%);
+  opacity: 0; transition: opacity 0.35s; border-radius: 50%;
+}
+.socialIcons a:hover { border-color: rgba(200,146,74,0.55); color: var(--c-accent2); transform: translateY(-4px) scale(1.08); box-shadow: 0 10px 28px rgba(200,146,74,0.15); }
+.socialIcons a:hover::before { opacity: 1; }
+
+/* ── PROJECT NAVIGATION */
+.project-navigation {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 64px;
+  padding-top: 40px;
+  border-top: 1px solid var(--c-border);
+}
+.nav-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 28px;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid var(--c-border2);
+  color: var(--c-muted);
+  border-radius: 100px;
+  text-decoration: none;
+  backdrop-filter: blur(10px);
+  transition: all 0.35s var(--ease-out);
+  font-family: var(--font-body);
+}
+.nav-btn:hover {
+  color: var(--c-accent2);
+  border-color: rgba(200,146,74,0.4);
+  background: rgba(200,146,74,0.06);
+}
+.nav-btn.prev:hover { transform: translateX(-3px); }
+.nav-btn.next:hover { transform: translateX(3px); }
+
+/* ── FOOTER */
+footer.developer {
+  position: relative; z-index: 2;
+  text-align: center; padding: 24px;
+  border-top: 1px solid var(--c-border);
+  margin-top: 40px;
+}
+footer.developer p { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(237,233,224,0.18); font-family: var(--font-body); }
+footer::before { content: ''; display: block; width: 48px; height: 1px; background: linear-gradient(90deg, transparent, var(--c-accent), transparent); margin: 0 auto 16px; opacity: 0.5; }
+
+/* ── KEYFRAMES */
+@keyframes revealUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+
+/* ── RESPONSIVE */
+@media (max-width: 768px) {
+  .page-wrap { padding: 100px 20px 80px; }
+  .stats-row { grid-template-columns: 1fr 1fr; }
+  .project-navigation { flex-direction: column; align-items: center; }
+  .nav-btn { width: 80%; justify-content: center; }
+  .project-title { font-size: clamp(22px, 6vw, 36px); }
+}
+@media (max-width: 480px) {
+  .stats-row { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<!-- PRELOADER -->
+<div id="preloader">
+  <p class="pl-name">Hari Babu C H</p>
+  <div class="pl-track"><div class="pl-fill"></div></div>
+</div>
+
+<!-- AMBIENT -->
+<div class="ambient ambient-1"></div>
+<div class="ambient ambient-2"></div>
+
+<!-- PARTICLES -->
+<div id="particles-js"></div>
+
+<button class="scroll-up-btn" id="scrollUpBtn" aria-label="Scroll to top">&#8593;</button>
+
+<!-- PAGE CONTENT -->
+<div class="page-wrap">
+
+  <button class="back-btn" onclick="history.back()">
+    <i class="fa-solid fa-arrow-left"></i>
+    <span>Back</span>
+  </button>
+
+  <!-- PROJECT HEADER -->
+  <div class="project-header">
+    <div class="project-year-tag">Project Case Study</div>
+    <div class="project-year-badge">2024</div>
+    <h1 class="project-title">Trees of Knowledge:<br>A Spatial Study of <span class="title-accent">Campus Biodiversity</span><br>Using Technology</h1>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="content-body">
+
+    <!-- Stats -->
+    <div class="section-block">
+      <div class="section-label">Project Metrics</div>
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-num">892</div>
+          <div class="stat-desc">Trees Recorded</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">48</div>
+          <div class="stat-desc">Distinct Species</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">5</div>
+          <div class="stat-desc">Campuses Surveyed</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Summary -->
+    <div class="section-block">
+      <div class="section-label">Overview</div>
+      <div class="section-title">Roots of Resilience: Mapping Campus Tree Biodiversity with GIS and Python</div>
+      <p class="section-text">This cross-disciplinary project focused on investigating and visualizing the biodiversity of tree populations across five educational campuses: Patrician College of Arts and Science, St. Patrick's Anglo-Indian School, St. Patrick's ICSE School, St. Michael's School, and the Children's Block. Over the course of three months, we conducted detailed field surveys to record species types, tree counts, and spatial coordinates. By integrating Geographic Information Systems (GIS) with Python-based analysis, we transformed ecological field data into dynamic visual insights. The project aimed to support sustainability initiatives, guide green infrastructure planning, and promote biodiversity awareness through interactive mapping and data storytelling.</p>
+    </div>
+
+    <!-- Objectives -->
+    <div class="section-block">
+      <div class="section-label">Core Objectives</div>
+      <ul class="content-list">
+        <li>Catalogue and classify tree species across multiple campuses</li>
+        <li>Quantify and visualize species abundance and distribution</li>
+        <li>Develop geospatial visualizations using interactive maps</li>
+        <li>Implement an end-to-end analytical workflow using Python</li>
+        <li>Deliver actionable ecological insights to stakeholders</li>
+      </ul>
+    </div>
+
+    <!-- Tools -->
+    <div class="section-block">
+      <div class="section-label">Tools &amp; Technologies</div>
+      <p class="section-text" style="margin-bottom:20px">A combination of data science libraries and GIS platforms was used to build an efficient and reproducible analysis pipeline:</p>
+      <div class="tech-grid">
+        <span class="tech-tag"><i class="fa-brands fa-python"></i> Python (Jupyter Notebook)</span>
+        <span class="tech-tag"><i class="fa-solid fa-table"></i> Pandas &amp; NumPy</span>
+        <span class="tech-tag"><i class="fa-solid fa-chart-bar"></i> Matplotlib &amp; Seaborn</span>
+        <span class="tech-tag"><i class="fa-solid fa-map-location-dot"></i> Folium (GIS Mapping)</span>
+        <span class="tech-tag"><i class="fa-solid fa-file-excel"></i> Microsoft Excel</span>
+      </div>
+    </div>
+
+    <!-- Competencies -->
+    <div class="section-block">
+      <div class="section-label">Key Competencies Applied</div>
+      <ul class="content-list">
+        <li>Field-based biodiversity surveying</li>
+        <li>Data cleaning, integrity checks, and preprocessing</li>
+        <li>Exploratory and statistical data analysis</li>
+        <li>Interactive and visual storytelling with maps</li>
+        <li>Environmental reporting and communication</li>
+      </ul>
+    </div>
+
+    <!-- Structure -->
+    <div class="section-block">
+      <div class="section-label">Project Structure on GitHub</div>
+      <div class="code-block">
+        <div class="code-label">Repository Layout</div>
+        <pre>📁 project-root/
+├── 📂 data/
+│   └── trees_dataset.xlsx
+├── 📂 notebooks/
+│   └── tree_analysis.ipynb
+├── 📂 images/
+│   └── charts, dashboard
+└── 📄 README.md</pre>
+      </div>
+    </div>
+
+    <!-- Results -->
+    <div class="section-block">
+      <div class="section-label">Results &amp; Insights</div>
+      <div class="section-title">What We Discovered</div>
+      <p class="section-text">The survey recorded a total of 892 individual trees across 48 distinct species. Our analysis identified zones of high species concentration — biodiversity hotspots — as well as areas with limited variety, indicating opportunities for ecological enhancement. The interactive maps provide an intuitive way to explore spatial patterns in tree distribution and can assist campus planners and educators in making informed, sustainable decisions.</p>
+    </div>
+
+    <!-- Conclusion -->
+    <div class="section-block">
+      <div class="section-label">Conclusion</div>
+      <p class="section-text">This project exemplifies how data science and GIS can be harnessed to support ecological resilience in urban environments. By bridging environmental research with computational tools, we created a comprehensive, interactive biodiversity profile of five campuses. The insights gained not only contribute to current sustainability efforts but also serve as a foundation for long-term biodiversity management. The initiative demonstrates the value of using technology to protect and enhance green spaces in educational institutions and beyond.</p>
+    </div>
+
+    <!-- Social -->
+    <div class="socialIcons">
+      <a href="https://in.linkedin.com/in/hari-babu-c-h" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+      <a href="https://github.com/haribabux7" target="_blank" rel="noopener" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+    </div>
+
+    <!-- Navigation -->
+    <div class="project-navigation">
+      <a href="../project1./index.html" class="nav-btn prev">
+        <i class="fa-solid fa-arrow-left"></i>
+        <span>Previous Project</span>
+      </a>
+      <a href="../project2./index.html" class="nav-btn next">
+        <span>Next Project</span>
+        <i class="fa-solid fa-arrow-right"></i>
+      </a>
+    </div>
+
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="developer">
+  <p>&copy; 2025 HARI BABU C H — All rights reserved.</p>
+</footer>
+
+<script defer src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+<script>
+// ── CURSOR
+const cursor = document.getElementById('cursor');
+const ring   = document.getElementById('cursor-ring');
+let mx = 0, my = 0, rx = window.innerWidth/2, ry = window.innerHeight/2;
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  cursor.style.left = mx+'px'; cursor.style.top = my+'px';
+});
+(function animRing() {
+  rx += (mx - rx) * 0.1; ry += (my - ry) * 0.1;
+  ring.style.left = rx+'px'; ring.style.top = ry+'px';
+  requestAnimationFrame(animRing);
+})();
+document.addEventListener('mouseover', e => {
+  if (e.target.closest('a, button')) document.body.classList.add('cursor--hover');
+});
+document.addEventListener('mouseout', e => {
+  if (e.target.closest('a, button')) document.body.classList.remove('cursor--hover');
+});
+
+// ── PRELOADER
+window.addEventListener('load', function () {
+  setTimeout(() => {
+    const pre = document.getElementById('preloader');
+    if (pre) {
+      pre.classList.add('pl-exit');
+      setTimeout(() => {
+        pre.style.display = 'none';
+        document.body.classList.add('loaded');
+      }, 900);
+    }
+  }, 400);
+
+  if (window.particlesJS) {
+    particlesJS("particles-js", {
+      particles: {
+        number: { value: 40, density: { enable: true, value_area: 900 } },
+        color: { value: "#b89060" },
+        shape: { type: "circle" },
+        opacity: { value: 0.15, random: true },
+        size: { value: 1.6, random: true },
+        line_linked: { enable: true, distance: 130, color: "#c8924a", opacity: 0.08, width: 1 },
+        move: { enable: true, speed: 0.6, direction: "none", random: true, out_mode: "out" }
+      },
+      interactivity: {
+        detect_on: "canvas",
+        events: { onhover: { enable: true, mode: "grab" }, resize: true },
+        modes: { grab: { distance: 150, line_linked: { opacity: 0.25 } } }
+      },
+      retina_detect: true
+    });
+  }
+});
+
+// ── SCROLL BUTTON
+const scrollBtn = document.getElementById('scrollUpBtn');
+if (scrollBtn) {
+  window.addEventListener('scroll', () => {
+    scrollBtn.style.display = window.scrollY > 100 ? 'flex' : 'none';
+  });
+  scrollBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+}
+
+// ── SCROLL REVEAL
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.style.opacity = '1';
+      entry.target.style.transform = 'translateY(0)';
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.section-block, .stat-card').forEach((el, i) => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(18px)';
+  el.style.transition = `opacity 0.7s ${0.05 * i}s cubic-bezier(0.16,1,0.3,1), transform 0.7s ${0.05 * i}s cubic-bezier(0.16,1,0.3,1)`;
+  observer.observe(el);
+});
+</script>
+</body>
+</html>
